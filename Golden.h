@@ -18,6 +18,14 @@ template<class T, size_t _nElem> T innerProduct(std::array<T, _nElem>& lhs, std:
     return product;
 }
 
+template<class T, size_t _nElem> T innerProduct(std::array<T, _nElem>&& lhs, std::array<T, _nElem>&& rhs) {
+    T product = 0;
+    for (int i = 0; i < _nElem; ++i) {
+        product += lhs[i] * rhs[i];
+    }
+    return product;
+}
+
 template<class T> double innerProduct(T abslhs, T absrhs, double theta) {
     return abslhs * absrhs * std::cos(theta);
 }
@@ -34,7 +42,7 @@ template<class T> std::array<T, 3> crossProduct(std::array<T, 3>& lhs, std::arra
     return {
         lhs[1] * rhs[2] - lhs[2] * rhs[1],
         lhs[2] * rhs[0] - lhs[0] * rhs[2],
-        lhs[0] * rhs[1] - lhs[1] * rhs[0],
+        lhs[0] * rhs[1] - lhs[1] * rhs[0]
     };
 }
 
@@ -42,6 +50,7 @@ template<class T> std::array<T, 3> crossProduct(std::vector<T>& lhs, std::vector
     return {
         lhs[1] * rhs[2] - lhs[2] * rhs[1],
         lhs[2] * rhs[0] - lhs[0] * rhs[2],
-        lhs[0] * rhs[1] - lhs[1] * rhs[0],
+        lhs[0] * rhs[1] - lhs[1] * rhs[0]
     };
 }
+
