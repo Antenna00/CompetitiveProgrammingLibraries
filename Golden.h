@@ -54,3 +54,8 @@ template<class T> std::array<T, 3> crossProduct(std::vector<T>& lhs, std::vector
 	};
 }
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+  
