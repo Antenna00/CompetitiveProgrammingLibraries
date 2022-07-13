@@ -2,6 +2,8 @@
 #include <vector>
 #include <cmath>
 
+template<class T, size_t nLow, size_t nCol> using Matrix = std::array<std::array<T, nLow, nCol>>
+
 template<class T> std::array<double, 2> rotateVector(T x, T y, T deg) {
 	const double rad = M_PI * deg / 180;
 	return {
