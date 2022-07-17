@@ -2,7 +2,26 @@
 #include <vector>
 #include <cmath>
 
-template<class T, size_t nLow, size_t nCol> using Matrix = std::array<std::array<T, nLow, nCol>>
+template<class T> size_t abs(int i) {
+	if (i > 0)
+		return i;
+	else
+		return -i;
+}
+
+template<class T, size_t _nElem> long double abs(const std::array<T, _nElem>& arr) {
+	T sum = 0;
+	for (const auto& r : arr)
+		sum += r * r;
+	return std::sqrt(sum);
+}
+
+template<class T> long double abs(const std::vector<T>& vec) {
+	T sum = 0;
+	for (const auto& r : vec)
+		sum += r * r;
+	return std::sqrt(sum);
+}
 
 template<class T> std::array<double, 2> rotateVector(T x, T y, T deg) {
 	const double rad = M_PI * deg / 180;
