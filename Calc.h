@@ -1,4 +1,7 @@
 #include <cmath>
+#include <vector>
+#include <array>
+#include <stack>
 
 unsigned long long factorial(const unsigned n) {
 	unsigned long long tmp = 1;
@@ -9,7 +12,7 @@ unsigned long long factorial(const unsigned n) {
 
 unsigned long long permutation(const unsigned n, const unsigned m) {
 	unsigned long long tmp = 1;
-	for (unsigned i = 1; i <= m; ++i)
+	for (unsigned i = n; i <= m; ++i)
 		tmp *= i;
 	return tmp;
 }
@@ -20,3 +23,41 @@ unsigned long long combination(const unsigned n, const unsigned m) {
 	else
 		return permutation(n, m) / factorial(m);
 }
+
+template<class T> T average(T* arr, size_t arrlen) {
+	T sum = 0;
+	for (size_t i = 0; i < arrlen; ++i) {
+		sum += *(arr + i);
+	}
+	return sum;
+}
+
+#ifdef _STL_VECTOR_H
+	template<class T> T average(std::vector<T>& vec) {
+		T sum = 0;
+		for (const auto& r : vec) {
+			sum += r;
+		}
+		return sum / vec.size();
+	}
+#endif // _STL_VECTOR_H
+
+#ifdef _GLIBCXX_ARRAY
+	template<class T, size_t n> T average(std::array<T, n>& arr) {
+		T sum = 0;
+		for (const auto& r : arr) {
+			sum += r;
+		}
+		return sum / n;
+	}
+#endif // _GLIBCXX_ARRAY
+
+#ifdef _STL_STACK_H
+	template<class T> T average(std::stack<T>& st) {
+		T sum = 0;
+		for (const auto& r : st) {
+			sum += r;
+		}
+		return sum / st.size();
+	}
+#endif // _STL_STACK_H

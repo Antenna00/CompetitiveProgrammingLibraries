@@ -6,31 +6,31 @@
 #include <algorithm>
 #include <deque>
 #include <stack>
+#include <iosfwd>
 
-#ifdef _STL_VECTOR_H
-#	ifdef _BASIC_STRING_H
-#		ifdef _GLIBCXX_SSTREAM
-			namespace std {
-				using istringstream = basic_string<char>;
-			}
-			template<class T> std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
-				std::string s;
-				if (std::getline(istm, s)) {
-					T tmp;
-					std::istringstream iss(std::move(s));
-					while (iss >> tmp)
-						vec.push_back(tmp);
-				}
-				return istm;
-			}
-#		endif // _GLIBCXX_IOSFWD
-#	endif // _BASIC_STRING_H
-
+#ifdef _STL_VECTOR_H 
+#if defined(_GLIBCXX_SSTREAM) && defined(_BASIC_STRING_H)
+	namespace std {
+		using istringstream = basic_string<char>;
+	}
+	template<class T> std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
+		std::string s;
+		if (std::getline(istm, s)) {
+			T tmp;
+			std::istringstream iss(std::move(s));
+			while (iss >> tmp)
+				vec.push_back(tmp);
+			return istm;
+		}
+		else
+			return istm;
+	}
+#endif // _GLIBCXX_SSTREAM ||  _BASIC_STRING_H
 	template<class T> std::ostream& operator<<(std::ostream& ostm, std::vector<T>& vec) {
 		for (const auto& r : vec)
 			ostm << r << ' ';
 		return ostm;
-}
+	}
 #endif // _STL_VECTOR_H
 
 #ifdef _GLIBCXX_ARRAY
@@ -66,6 +66,23 @@
 #endif // _STL_LIST_H
 
 #ifdef _STL_DEQUE_H
+#if defined(_BASIC_STRING_H) && defined (_GLIBCXX_SSTREAM)
+	namespace std {
+		using istringstream = basic_string<char>;
+	}
+	template<class T> std::istream& operator>>(std::istream& istm, std::deque<T>& dq) {
+		std::string s;
+		if (std::getline(istm, s)) {
+			std::istringstream iss(std::move(s));
+			T tmp;
+			while (iss >> tmp) {
+				dq.push_back(tmp);
+			}
+			return istm;
+		}
+		return {};
+	}
+#endif // _GLIBCXX_SSTREAM && _BASIC_STRING_H
 	template<class T> std::ostream& operator<<(std::ostream& ostm, std::deque<T>& dq) {
 		for (const auto& r : dq)
 			ostm << r << ' ';
@@ -84,8 +101,25 @@
 namespace utils {
 	using HANDLE = void*;
 #	ifdef _STL_ALGO_H
-		template<class T, class _Pr> void sort(std::vector<T>& vec, _Pr pr) {
-			std::sort(vec.begin(), vec.end(), pr);
-		}
+#		ifdef _STL_VECTOR_H
+			template<class T, class _Pr> void sort(std::vector<T>& vec, _Pr pr) {
+				std::sort(vec.begin(), vec.end(), pr);
+			}
+
+			template<class T> void sort(std::vector<T>& vec) {
+				std::sort(vec.begin(), vec.end());
+			}
+		#endif // _STL_VECTOR_H
+#		ifdef _GLIBCXX_ARRAY
+			template<class T, size_t n, class _Pr> void sort(std::array<T, n>& arr, _Pr pr) {
+				std::sort(arr.begin(), arr.end(), pr);
+			}
+
+			template<class T, size_t n> void sort(std::array<T, n>& arr) {
+				std::sort(arr.begin(), arr.end());
+			}
+#		endif // _GLIBCXX_ARRAY
+			
+			
 #	endif // _STL_ALGO_H
 }
