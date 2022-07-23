@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include <stack>
+#include <map>
 
 unsigned long long factorial(const unsigned n) {
 	unsigned long long tmp = 1;
@@ -40,6 +41,15 @@ template<class T> T average(T* arr, size_t arrlen) {
 		}
 		return sum / vec.size();
 	}
+#ifdef _STL_ALGO_H
+	template<class T> T median(std::vector<T>& vec) {
+		std::sort(vec.begin(), vec.end());
+		if (vec.size() % 2)
+			return (vec.at(vec.size() / 2) + 1);
+		else
+			return (vec.at(vec.size() / 2) + vec.at(vec.size() / 2 + 1));
+	}
+#endif // _STL_ALGO_H
 #endif // _STL_VECTOR_H
 
 #ifdef _GLIBCXX_ARRAY
@@ -50,6 +60,15 @@ template<class T> T average(T* arr, size_t arrlen) {
 		}
 		return sum / n;
 	}
+#ifdef _STL_ALGO_H
+	template<class T, size_t n> T median(std::array<T, n>& arr) {
+		std::sort(arr.begin(), arr.end());
+		if (arr.size() % 2)
+			return (arr.at(arr.size() / 2) + 1);
+		else
+			return (arr.at(arr.size() / 2) + arr.at(arr.size() / 2 + 1)) / 2;
+	}
+#endif // _STL_ALGO_H
 #endif // _GLIBCXX_ARRAY
 
 #ifdef _STL_STACK_H
