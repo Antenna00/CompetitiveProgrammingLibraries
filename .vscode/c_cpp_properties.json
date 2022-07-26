@@ -1,25 +1,23 @@
 {
     "configurations": [
         {
-            "name": "clang",
+            "name": "MinGW",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\MinGW\\include",
+                "C:\\MinGW\\lib\\gcc\\mingw32\\6.3.0\\include",
+                "C:\\MinGW\\lib\\gcc\\mingw32\\6.3.0\\include\\c++"
             ],
-            "defines": [],
-            "compilerPath": "/usr/bin/clang",
+            "defines": [
+                "_DEBUG"
+            ],
+            "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
+            "cppStandard": "c++20",
             "cStandard": "c17",
-            "cppStandard": "c++20",
-            "intelliSenseMode": "linux-clang-x64"
-        },
-        {
-            "name": "g++",
-            "includePath": [
-                "${workspaceFolder}/**"
+            "compilerArgs": [
+                "-Wall"
             ],
-            "defines": [],
-            "compilerPath": "/usr/bin/g++",
-            "cppStandard": "c++20",
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "windows-gcc-x86"
         }
     ],
     "version": 4
