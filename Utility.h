@@ -75,9 +75,8 @@ using llong = long long;
 			while (iss >> tmp) {
 				dq.push_back(tmp);
 			}
-			return istm;
 		}
-		return {};
+		return istm;
 	}
 #endif // _GLIBCXX_SSTREAM && _BASIC_STRING_H
 	template<class T> std::ostream& operator<<(std::ostream& ostm, std::deque<T>& dq) {
@@ -96,7 +95,6 @@ using llong = long long;
 #endif // _STL_STACK_H
 
 namespace utils {
-	using HANDLE = void*;
 #ifdef _STL_ALGO_H
 #ifdef _STL_VECTOR_H
 	template<class T, class _Pr> void sort(std::vector<T>& vec, _Pr pr) {
@@ -159,20 +157,3 @@ namespace utils {
 	}
 #endif // _GLIBCXX_STRING
 }
-
-#include <pthread.h>
-#if defined(_PTHREAD_H)
-#ifdef _LOCAL
-static const char* pthread_path = "";
-#else
-static const char* pthread_path = "/lib/x86_64-linux-gnu/libpthread.so.0";
-#endif
-extern "C" void* __libc_dlopen_mode(const char* ch, int n);
-extern "C" void* __libc_dlsym(void* p, const char* ch);
-
-
-namespace thread {
-
-}
-
-#endif // _PTHREAD_H

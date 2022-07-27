@@ -1,8 +1,6 @@
 #include <array>
 #include <vector>
 #include <cmath>
-#include <thread>
-#include <mutex>
 
 template<class T> size_t abs(int i) {
 	if (i > 0)
@@ -93,10 +91,34 @@ template<class T> std::array<T, 3> crossProduct(std::vector<T>& lhs, std::vector
 	};
 }
 
-template<class T, size_t n> std::array<T, n> operator*(std::array<std::array<T, n>, n>& mat, std::array<T, n>) {
-	std::array<T, n> result;
-	std::array<std::thread, n> threads;
+template<class T, size_t n, size_t m> std::array<std::array<T, n>, m> operator+(std::array<std::array<T, n>, m>& lhs, std::array<std::array<T, n>, m>& rhs) {
+	std::array<std::array<T, n>, m> result{0};
+	for (size_t i = 0; i < n; ++i) {
+		for (size_t j = 0; j < m; ++j) {
+			result.at(i).at(j) = lhs.at(i).at(j) + rhs.at(i).at(j);
+		}
+	}
+	return result;
+}
 
+template<class T, size_t n, size_t m> bool operator==(std::array<std::array<T, n>, m>& lhs, std::array<std::array<T, n>, m>& rhs) {
+	for (size_t i = 0; i < n; ++i) {
+		for (size_t j = 0; j < m; ++j) {
+			if (lhs.at(i).at(j) != rhs.at(i).at(j))
+				return false;
+		}
+	}
+	return true;
+}
+
+template<class T, size_t n, size_t m> bool operator!=(std::array<std::array<T, n>, m>& lhs, std::array<std::array<T, n>, m>& rhs) {
+	return !(lhs == rhs);
+}
+
+template<class T, size_t n> std::array<T, n> operator*(std::array<std::array<T, n>, n>& mat, std::array<T, n>) {
+	std::array<T, n> result{0};
+#if defined(_PTHREAD_H)
+	std::array<std::thread, n> threads;
 	for (size_t i = 0; i < n; ++i) {
 		threads.at(i) = std::thread([&](std::array<T, n>& matarr, std::array<T, n>& arr, T result) {
 			for (size_t j = 0; j < n; ++j) {
@@ -106,7 +128,14 @@ template<class T, size_t n> std::array<T, n> operator*(std::array<std::array<T, 
 	}
 	for (const auto& t : threads)
 		t.join();
-	
+#else
+	for (size_t i = 0; i < n; ++i) {
+		for (size_t j = 0; j < n; ++j) {
+			result.at(i) += mat.at(i).at(j) * arr.at(j);
+		}
+	}	
+#endif // _PTHREAD_H
 	return result;
 }
+
 
