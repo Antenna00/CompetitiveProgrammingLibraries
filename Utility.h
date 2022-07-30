@@ -13,6 +13,8 @@ using llong = long long;
 
 #ifdef _STL_VECTOR_H 
 #if defined(_GLIBCXX_SSTREAM) && defined(_BASIC_STRING_H)
+	// vector<int> vec;
+	// cin >> vec;
 	template<class T> std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
 		std::string s;
 		if (std::getline(istm, s)) {
@@ -26,6 +28,7 @@ using llong = long long;
 			return istm;
 	}
 #endif // _GLIBCXX_SSTREAM &&  _BASIC_STRING_H
+	// cout << vec;
 	template<class T> std::ostream& operator<<(std::ostream& ostm, std::vector<T>& vec) {
 		for (const auto& r : vec)
 			ostm << r << ' ';

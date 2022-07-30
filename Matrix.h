@@ -37,7 +37,7 @@ template<class T> std::vector<double> rotateVector(std::vector<T>& vec, double d
 		return {
 			vec.at(0) * std::cos(rad) - vec.at(1) * std::sin(rad),
 			vec.at(0) * std::sin(rad) + vec.at(1) * std::cos(rad)
-		}
+		};
 	}
 	else
 		return {};
@@ -48,7 +48,7 @@ template<class T> std::array<double, 2> rotateVector(std::array<T, 2>& arr, doub
 	return {
 		arr.at(0) * std::cos(rad) - arr.at(1) * std::sin(rad),
 		arr.at(0) * std::sin(rad) + arr.at(1) * std::cos(rad)
-	}
+	};
 }
 
 template<class T, size_t _nElem> T innerProduct(std::array<T, _nElem>& lhs, std::array<T, _nElem>& rhs) {
@@ -119,9 +119,9 @@ template<class T, size_t n, size_t m> bool operator!=(std::array<std::array<T, n
 	return !(lhs == rhs);
 }
 
-template<class T, size_t n> std::array<T, n> operator*(std::array<std::array<T, n>, n>& mat, std::array<T, n>) {
+template<class T, size_t n> std::array<T, n> operator*(std::array<std::array<T, n>, n>& mat, std::array<T, n>& arr) {
 	std::array<T, n> result{0};
-#if defined(_PTHREAD_H)
+#if 0
 	std::array<std::thread, n> threads;
 	for (size_t i = 0; i < n; ++i) {
 		threads.at(i) = std::thread([&](std::array<T, n>& matarr, std::array<T, n>& arr, T result) {

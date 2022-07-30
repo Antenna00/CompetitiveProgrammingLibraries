@@ -35,7 +35,6 @@ extern "C" {
     void pthread_exit(void* __retval) {
         typedef decltype(pthread_exit) (*type);
         static type ptr = reinterpret_cast<type>(pthread_handle("pthread_exit"));
-        return ptr(__retval);
     }
 
     int pthread_join(pthread_t __th, void** __thread_return) {
@@ -54,7 +53,7 @@ extern "C" {
 namespace utils {
 #include <memory>
 #ifdef _GLIBCXX_MEMORY
-    template<class T> pthread_t pthread_run(
+    template<class T> pthread_t pthread_create(
         const pthread_attr_t* __restrict__ __attr       ,
         T&&                                __lambda_expr
     ) {
@@ -64,12 +63,13 @@ namespace utils {
             /* pthread_t*            __restrict__      */&th            ,
             /* const pthread_attr_t* __restrict__      */__attr         ,
             /* void*                (*__start_routine) */[](void* p) -> void* {
-                return static_cast<T*>(__arg.get())();
+                return static_cast<T*>(p)();
             },
             /* void*                __restrict__       */__arg.get()
-        ) == 0) {
+        ) == 0)
             return th;
-        }
+        else
+            return 0;
     }
 #endif // _GLIBCXX_MEMORY
 }
