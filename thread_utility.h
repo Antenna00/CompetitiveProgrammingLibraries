@@ -50,3 +50,26 @@ extern "C" {
         return ptr(__th);
     }
 }
+
+namespace utils {
+#include <memory>
+#ifdef _GLIBCXX_MEMORY
+    template<class T> pthread_t pthread_run(
+        const pthread_attr_t* __restrict__ __attr       ,
+        T&&                                __lambda_expr
+    ) {
+        std::unique_ptr<T> __arg{new T(__lambda_expr)};
+        pthread_t th;
+        if (::pthread_create(
+            /* pthread_t*            __restrict__      */&th            ,
+            /* const pthread_attr_t* __restrict__      */__attr         ,
+            /* void*                (*__start_routine) */[](void* p) -> void* {
+                return static_cast<T*>(__arg.get())();
+            },
+            /* void*                __restrict__       */__arg.get()
+        ) == 0) {
+            return th;
+        }
+    }
+#endif // _GLIBCXX_MEMORY
+}

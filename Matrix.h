@@ -32,11 +32,15 @@ template<class T> std::array<double, 2> rotateVector(T x, T y, T deg) {
 }
 
 template<class T> std::vector<double> rotateVector(std::vector<T>& vec, double deg) {
-	const double rad = M_PI * deg / 100;
-	return {
-		vec.at(0) * std::cos(rad) - vec.at(1) * std::sin(rad),
-		vec.at(0) * std::sin(rad) + vec.at(1) * std::cos(rad)
+	if (vec.size() == 2) {
+		const double rad = M_PI * deg / 100;
+		return {
+			vec.at(0) * std::cos(rad) - vec.at(1) * std::sin(rad),
+			vec.at(0) * std::sin(rad) + vec.at(1) * std::cos(rad)
+		}
 	}
+	else
+		return {};
 }
 
 template<class T> std::array<double, 2> rotateVector(std::array<T, 2>& arr, double deg) {
@@ -137,5 +141,3 @@ template<class T, size_t n> std::array<T, n> operator*(std::array<std::array<T, 
 #endif // _PTHREAD_H
 	return result;
 }
-
-
